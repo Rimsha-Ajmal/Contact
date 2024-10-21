@@ -1,5 +1,6 @@
 package com.rimsha.ContactApp.controller;
 
+import com.rimsha.ContactApp.dto.LoginDto;
 import com.rimsha.ContactApp.model.User;
 import com.rimsha.ContactApp.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,11 @@ public class UserController {
     @PutMapping("/{id}")
     public String updateUser(@PathVariable String id, @RequestBody User user){
         return userService.updateUser(id, user);
+    }
+
+    @PostMapping("/login")
+    public String checkEmailPassword(@RequestBody LoginDto loginDto){
+        return userService.checkEmailPassword(loginDto);
     }
 
 }
