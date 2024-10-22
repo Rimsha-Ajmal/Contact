@@ -6,21 +6,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.UuidGenerator;
-
-import java.util.List;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_DEFAULT;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonInclude(NON_DEFAULT)
-@Table(name = "user")
-
-public class User {
+@Table(name = "contacts")
+public class Contact {
 
     @Id
     @UuidGenerator
@@ -33,17 +31,17 @@ public class User {
     @Column
     private String lastName;
 
-    @Column(unique = true)
-    private String email;
-
-    @Column
-    private String password;
-
     @Column
     private String phone;
 
     @Column
     private String address;
 
+    @Column
+    private String email;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

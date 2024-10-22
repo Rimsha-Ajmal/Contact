@@ -18,22 +18,22 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> getUsers(){
+    public List<User> getUsers() {
         return userService.getUsers();
     }
 
     @PostMapping
-    public String createUser(@RequestBody User user){
+    public String createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
     @PutMapping("/{id}")
-    public String updateUser(@PathVariable String id, @RequestBody User user){
+    public String updateUser(@PathVariable String id, @RequestBody User user) {
         return userService.updateUser(id, user);
     }
 
     @PostMapping("/login")
-    public String checkEmailPassword(@RequestBody LoginDto loginDto){
+    public String checkEmailPassword(@RequestBody LoginDto loginDto) {
         return userService.checkEmailPassword(loginDto);
     }
 
