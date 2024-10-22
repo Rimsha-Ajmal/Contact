@@ -1,6 +1,7 @@
 package com.rimsha.ContactApp.service;
 
 import com.rimsha.ContactApp.dto.LoginDto;
+import com.rimsha.ContactApp.dto.SignUpDto;
 import com.rimsha.ContactApp.model.User;
 import com.rimsha.ContactApp.repo.UserRepo;
 import jakarta.transaction.Transactional;
@@ -25,12 +26,12 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    public String createUser(User user){
+    public User createUser(User user){
         userRepo.save(user);
-        return "New user created";
+        return user;
     }
 
-    public String updateUser(String id, User user){
+    public User updateUser(String id, User user){
         User updatedUser = userRepo.findById(id).get();
         updatedUser.setFirstName(user.getFirstName());
         updatedUser.setLastName(user.getLastName());
@@ -39,21 +40,33 @@ public class UserService {
         updatedUser.setPhone(user.getPhone());
         updatedUser.setAddress(user.getAddress());
         userRepo.save(updatedUser);
-        return  "User updated with user id: " + id;
+        return user;
     }
 
-    public String checkEmailPassword(LoginDto loginDto){
+    public SignUpDto checkEmailPassword(LoginDto loginDto) throws Exception {
         Optional<User> existingUser = userRepo.findByEmail(loginDto.getEmail());
 
+        System.out.println("Email provided: " + loginDto.getEmail());
+        System.out.println("Password provided: " + loginDto.getPassword());
+
         if(existingUser.isEmpty()){
-            return "User doesn't exist.";
+            throw new Exception("User doesn't exist.");
         }
 
         User currentUser = existingUser.get();
 
         if(!currentUser.getPassword().equals(loginDto.getPassword())){
-            return "password is not correct";
+            throw new Exception("password is not correct");
         }
-        return "User logged in";
+
+        SignUpDto signUpDto = new SignUpDto();
+        signUpDto.setId(currentUser.getId());
+        signUpDto.setFirstName(currentUser.getFirstName());
+        signUpDto.setLastName(currentUser.getLastName());
+        signUpDto.setEmail(currentUser.getEmail());
+        signUpDto.setPhone(currentUser.getPhone());
+        signUpDto.setAddress(currentUser.getAddress());
+
+        return signUpDto;
     }
 }

@@ -1,6 +1,7 @@
 package com.rimsha.ContactApp.controller;
 
 import com.rimsha.ContactApp.dto.LoginDto;
+import com.rimsha.ContactApp.dto.SignUpDto;
 import com.rimsha.ContactApp.model.User;
 import com.rimsha.ContactApp.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -23,17 +25,17 @@ public class UserController {
     }
 
     @PostMapping
-    public String createUser(@RequestBody User user) {
+    public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
     @PutMapping("/{id}")
-    public String updateUser(@PathVariable String id, @RequestBody User user) {
+    public User updateUser(@PathVariable String id, @RequestBody User user) {
         return userService.updateUser(id, user);
     }
 
     @PostMapping("/login")
-    public String checkEmailPassword(@RequestBody LoginDto loginDto) {
+    public SignUpDto checkEmailPassword(@RequestBody LoginDto loginDto) throws Exception {
         return userService.checkEmailPassword(loginDto);
     }
 
