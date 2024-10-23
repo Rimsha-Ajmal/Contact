@@ -17,22 +17,22 @@ public class ContactController {
     private ContactService contactService;
 
     @GetMapping("/{id}")
-    public List<Contact> getContactsByUserId(@PathVariable String id){
+    public List<Contact> getContactsByUserId(@PathVariable String id) {
         return contactService.getContactsByUserId(id);
     }
 
     @PostMapping
-    public Contact createContact(@RequestBody ContactDto contactDto){
+    public Contact createContact(@RequestBody ContactDto contactDto) {
         return contactService.createContact(contactDto);
     }
 
     @PutMapping("/{id}")
-    public Contact updateContact(@RequestBody ContactDto contactDto, @PathVariable String id){
-        return contactService.updateContact(contactDto,id);
+    public Contact updateContact(@RequestBody ContactDto contactDto, @PathVariable String id) {
+        return contactService.updateContact(contactDto, id);
     }
 
     @DeleteMapping("/{id}")
-    public Contact deleteContact(@PathVariable String id){
+    public Contact deleteContact(@PathVariable String id) {
         return contactService.deleteContact(id);
     }
 }
