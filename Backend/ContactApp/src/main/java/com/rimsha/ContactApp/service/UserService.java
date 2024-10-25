@@ -49,7 +49,7 @@ public class UserService {
         System.out.println("Email provided: " + loginDto.getEmail());
         System.out.println("Password provided: " + loginDto.getPassword());
 
-        if(existingUser.isEmpty()){
+        if(!existingUser.isPresent()){
             throw new Exception("User doesn't exist.");
         }
 
