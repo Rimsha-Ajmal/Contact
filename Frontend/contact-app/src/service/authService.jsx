@@ -21,7 +21,7 @@ export const signup = async (
   const { data } = await axios.post("http://localhost:8080/user", {
     firstName: firstName,
     lastName: lastName,
-    phoneNo: phoneNo,
+    phone: phoneNo,
     address: address,
     email: email,
     password: password,
