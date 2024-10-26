@@ -6,7 +6,7 @@ import {
   getData,
   postData,
   updateExistingTodo,
-} from "../../service/TodoService";
+} from "../../service/ContactService";
 import { useNavigate } from "react-router-dom";
 import CheckboxWithInput from "../checkbox-and-input/CheckboxWithInput";
 
@@ -26,9 +26,9 @@ export default function Dashboard() {
   const currentUser = JSON.parse(userDetails);
 
   const fetchData = async () => {
-    // console.log(userId);
-    // const data = (await getData(currentUser.id)) || [];
-    // setTodo(data);
+    const data = (await getData(currentUser.id)) || [];
+    setTodo(data);
+    console.log(data)
   };
 
   const addTodo = async () => {
@@ -56,17 +56,18 @@ export default function Dashboard() {
   };
 
   const logout = () => {
-    // localStorage.removeItem("userData");
-    // navigate("/login");
+    localStorage.removeItem("userData");
+    navigate("/login");
+    // console.log("logout button")
   };
 
   const toggleMarkAsCompleted = (value) => {
     setMarkCompleted(value);
   };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div>
