@@ -47,6 +47,9 @@ export default function SignUp() {
 
   const sendSignupData = async (event) => {
     event.preventDefault();
+    if (password !== rePassword) {
+      return console.log("Password does not match");
+    }
     const userData = await signup(
       firstName,
       lastName,
@@ -55,6 +58,7 @@ export default function SignUp() {
       email,
       password
     );
+
     localStorage.setItem("userData", JSON.stringify(userData));
     navigate("/");
   };
