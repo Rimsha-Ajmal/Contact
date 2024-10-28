@@ -19,12 +19,12 @@ export const deleteContact = async (contactId) => {
   const { data } = await axios.delete(`http://localhost:8080/contact/${contactId}`);
 };
 
-// export const updateExistingTodo = async (id, text, userId) => {
-//   const { data } = await axios.put(`${API_URL}/todo/${id}`, {
-//     title: text,
-//     userId: userId,
-//   });
-// };
+export const updateContact = async (id, text, userId) => {
+  const { data } = await axios.put(`http://localhost:8080/contact//${id}`, {
+    title: text,
+    userId: userId,
+  });
+};
 
 // export const markAsCompletedAndSortData = async (userId, completed, sortBy) => {
 //   const { data } = await axios.get(`${API_URL}/todo/user/${userId}`, {

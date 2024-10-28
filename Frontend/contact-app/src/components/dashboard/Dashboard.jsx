@@ -6,7 +6,7 @@ import {
   deleteData,
   getData,
   postData,
-  updateExistingTodo,
+  updateContact,
 } from "../../service/ContactService";
 import { useNavigate } from "react-router-dom";
 import CheckboxWithInput from "../checkbox-and-input/CheckboxWithInput";
@@ -53,10 +53,15 @@ export default function Dashboard() {
   };
 
   const deleteCurrentContact = async (contactId) => {
-    console.log("Delete contact: " + contactId);
+    console.log("Delete contact with id:" + contactId);
     await deleteContact(contactId);
     await fetchData();
   };
+
+  // const updateCurrentContact = async (contactId) => {
+  //   console.log("Updated contact with id: " + contactId);
+  //   await updateContact(contactId);
+  // }
 
   const logout = () => {
     localStorage.removeItem("userData");
@@ -96,6 +101,7 @@ export default function Dashboard() {
                 email={value.email}
                 address={value.address}
                 onDelete={()=>{deleteCurrentContact(value.id)}}
+                
               />
             );
           })}
