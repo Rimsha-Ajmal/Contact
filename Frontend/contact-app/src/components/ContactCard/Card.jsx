@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
+import DeleteModal from "../modals/DeleteModal";
+import { deleteContact } from "../../service/ContactService";
 
 const Card = (props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openDeleteModal = () => setIsModalOpen(true);
+  const closeDeleteModal = () => setIsModalOpen(false);
+
   return (
     <div className="flex justify-center my-4">
       <div className="bg-cyan-950 w-full max-w-md rounded-3xl shadow-lg overflow-hidden">
@@ -18,7 +25,12 @@ const Card = (props) => {
               </h1>
             </div>
             <div className="flex gap-1 items-center">
-              <MdDelete className="text-2xl" /> <FaEdit className="text-2xl" />
+              <button onClick={openDeleteModal}>
+                <MdDelete className="text-2xl" />
+              </button>
+              <button>
+                <FaEdit className="text-2xl" />
+              </button>
             </div>
           </div>
           <div className="space-y-3">
@@ -31,6 +43,13 @@ const Card = (props) => {
             <p>
               <span className="font-bold">Address:</span> {props.address}
             </p>
+
+            {isModalOpen && (
+              <DeleteModal
+                onClose={closeDeleteModal}
+                deleteContact={props.onDelete}
+              />
+            )}
           </div>
         </div>
       </div>
