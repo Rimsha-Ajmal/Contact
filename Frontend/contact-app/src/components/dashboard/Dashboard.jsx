@@ -9,13 +9,14 @@ import {
 } from "../../service/ContactService";
 import { useNavigate } from "react-router-dom";
 import CheckboxWithInput from "../checkbox-and-input/CheckboxWithInput";
+import Card from "../ContactCard/Card";
 
 export default function Dashboard() {
-  const [todo, setTodo] = useState([]);
-  const [inputValue, setInputValue] = useState("");
-  const [toggleButton, setToggleButton] = useState(false);
-  const [id, setId] = useState();
-  const [markCompleted, setMarkCompleted] = useState(false);
+  const [contact, setContact] = useState([]);
+  // const [inputValue, setInputValue] = useState("");
+  // const [toggleButton, setToggleButton] = useState(false);
+  // const [id, setId] = useState();
+  // const [markCompleted, setMarkCompleted] = useState(false);
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
@@ -27,8 +28,8 @@ export default function Dashboard() {
 
   const fetchData = async () => {
     const data = (await getData(currentUser.id)) || [];
-    setTodo(data);
-    console.log(data)
+    setContact(data);
+    console.log(data);
   };
 
   const addTodo = async () => {
@@ -58,11 +59,10 @@ export default function Dashboard() {
   const logout = () => {
     localStorage.removeItem("userData");
     navigate("/login");
-    // console.log("logout button")
   };
 
   const toggleMarkAsCompleted = (value) => {
-    setMarkCompleted(value);
+    // setMarkCompleted(value);
   };
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export default function Dashboard() {
   return (
     <div>
       <div className="flex justify-end mr-6 mt-1">
-        <Button
+        {/* <Button
           name="Incomplete Todo"
           className="bg-red-200 ml-2 my-3 px-5 py-2 flex justify-center items-center transition duration-500 ease-in-out hover:bg-red-500 rounded-2xl font-semibold text-sm"
           // onClick={}
@@ -82,16 +82,33 @@ export default function Dashboard() {
           name="Completed Todo"
           className="bg-red-200 ml-2 my-3 px-5 py-2 flex justify-center items-center transition duration-500 ease-in-out hover:bg-red-500 rounded-2xl font-semibold text-sm"
           // onClick={}
-        />
+        /> */}
 
         <Button
           name="LOGOUT"
-          className="bg-red-200 ml-2 my-3 px-5 py-2 flex justify-center items-center transition duration-500 ease-in-out hover:bg-red-500 rounded-2xl font-semibold text-sm"
+          className="bg-red-600 ml-2 my-3 px-5 py-2 flex justify-center items-center transition duration-500 ease-in-out hover:bg-red-500 rounded-2xl font-semibold text-sm"
           onClick={logout}
         />
       </div>
 
-      <div className="flex justify-center items-center h-screen font-sans">
+      <div>
+        <h1 className="text-center font-bold text-3xl text-cyan-950">MY CONTACTS</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
+          {contact.map((value) => {
+            return (
+              <Card
+                firstName={value.firstName}
+                lastName={value.lastName}
+                phone={value.phone}
+                email={value.email}
+                address={value.address}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      {/* <div className="flex justify-center items-center h-screen font-sans">
         <div className="bg-white-800 p-32 rounded-lg shadow-lg text-black text-lg">
           <form>
             <div className="flex items-end">
@@ -114,9 +131,9 @@ export default function Dashboard() {
                 }}
               />
             </div>
-          </form>
+          </form> */}
 
-          <ul>
+      {/* <ul> 
             {todo.map((item) => {
               return (
                 <li key={item.id} className="flex items-center">
@@ -141,7 +158,7 @@ export default function Dashboard() {
             })}
           </ul>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -1,4 +1,6 @@
 import { FaFacebookF } from "react-icons/fa";
+
+
 import Button from "../button/Button";
 import GoogleIcon from "../GoogleIcon";
 
@@ -13,7 +15,8 @@ export default function SocialMediaButtons() {
       />
       <Button
         name="Facebook"
-        image={<FaFacebookF />}
+        image={<FaFacebookF />
+        }
         className="flex items-center my-2 py-2 px-8 border-2 border-blue-700 rounded-lg w-1/2 text-blue-700 font-semibold"
         imageClass="mr-2"
       />
