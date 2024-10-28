@@ -4,12 +4,17 @@ import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import DeleteModal from "../modals/DeleteModal";
 import { deleteContact } from "../../service/ContactService";
+import EditModal from "../modals/EditModal";
 
 const Card = (props) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const openDeleteModal = () => setIsModalOpen(true);
-  const closeDeleteModal = () => setIsModalOpen(false);
+  const openDeleteModal = () => setIsDeleteModalOpen(true);
+  const closeDeleteModal = () => setIsDeleteModalOpen(false);
+
+  const openEditModal = () => setIsEditModalOpen(true);
+  const closeEditModal = () => setIsEditModalOpen(false);
 
   return (
     <div className="flex justify-center my-4">
@@ -28,7 +33,7 @@ const Card = (props) => {
               <button onClick={openDeleteModal}>
                 <MdDelete className="text-2xl" />
               </button>
-              <button>
+              <button onClick={openEditModal}>
                 <FaEdit className="text-2xl" />
               </button>
             </div>
@@ -44,12 +49,17 @@ const Card = (props) => {
               <span className="font-bold">Address:</span> {props.address}
             </p>
 
-            {isModalOpen && (
+            {isDeleteModalOpen && (
               <DeleteModal
                 onClose={closeDeleteModal}
                 deleteContact={props.onDelete}
               />
             )}
+
+            {isEditModalOpen && (
+              <EditModal onClose={closeEditModal}/>
+            )}
+
           </div>
         </div>
       </div>
