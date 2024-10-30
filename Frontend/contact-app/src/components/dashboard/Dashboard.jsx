@@ -4,7 +4,7 @@ import Button from "../button/Button";
 import {
   deleteContact,
   deleteData,
-  getData,
+  getContactsByUserId,
   postData,
   updateContact,
 } from "../../service/ContactService";
@@ -28,7 +28,7 @@ export default function Dashboard() {
   const currentUser = JSON.parse(userDetails);
 
   const fetchData = async () => {
-    const data = (await getData(currentUser.id)) || [];
+    const data = (await getContactsByUserId(currentUser.id)) || [];
     setContact(data);
     console.log(data);
   };
