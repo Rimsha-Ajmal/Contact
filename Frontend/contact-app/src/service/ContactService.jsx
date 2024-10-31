@@ -1,8 +1,8 @@
 import axios from "axios";
 import { API_URL } from "./Constants";
 
-export const getData = async (userId) => {
-  const { data } = await axios.get(`http://localhost:8080/contact/${userId}`);
+export const getContactsByUserId = async (userId) => {
+  const { data } = await axios.get(`http://localhost:8080/contact/user/${userId}`);
   console.log("Data fetched successfully");
   return data;
 };
