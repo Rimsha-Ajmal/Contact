@@ -101,7 +101,7 @@ export default function Dashboard() {
                 email={value.email}
                 address={value.address}
                 onDelete={()=>{deleteCurrentContact(value.id)}}
-                
+                contactId={value.id}
               />
             );
           })}
