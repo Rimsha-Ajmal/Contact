@@ -4,6 +4,7 @@ export default function LabelWithInput(props) {
       <label
         htmlFor={props.htmlFor}
         className="block"
+        
         // className={props.labelClass}
       >
         {props.labelName}
