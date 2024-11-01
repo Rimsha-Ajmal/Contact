@@ -9,53 +9,68 @@ import {
 } from "@headlessui/react";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import LabelWithInput from "../label-and-inputs/LabelWithInput";
+import { updateContact } from "../../service/ContactService";
 
 export default function EditModal(props) {
   const [open, setOpen] = useState(true);
 
-    const [contactId, setContactId] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phoneNo, setPhoneNo] = useState("");
-    const [address, setAddress] = useState("");
-    const [userId, setUserId] = useState("");
+  const [contactId, setContactId] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
+  const [address, setAddress] = useState("");
+  const [userId, setUserId] = useState("");
 
-    const handleFirstNameChange = (event) => {
-      setFirstName(event.target.value);
-    };
+  const handleFirstNameChange = (event) => {
+    setFirstName(event.target.value);
+  };
 
-    const handleLastNameChange = (event) => {
-      setLastName(event.target.value);
-    };
+  const handleLastNameChange = (event) => {
+    setLastName(event.target.value);
+  };
 
-    const handleEmailChange = (event) => {
-      setEmail(event.target.value);
-    };
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
 
-    const handlePhoneNoChange = (event) => {
-      setPhoneNo(event.target.value);
-    };
+  const handlePhoneNoChange = (event) => {
+    setPhoneNo(event.target.value);
+  };
 
-    const handleAddressChange = (event) => {
-      setAddress(event.target.value);
-    };
+  const handleAddressChange = (event) => {
+    setAddress(event.target.value);
+  };
 
-  useEffect(()=>{
+  const updateCurrentContact = async () => {
+    await updateContact(
+      contactId,
+      firstName,
+      lastName,
+      email,
+      phoneNo,
+      address,
+      userId
+    );
+    props.getContacts();
+  };
+
+  useEffect(() => {
     console.log(props.contactData);
-    if(props.contactData){
-      setContactId(props.contactData.id)
-      setFirstName(props.contactData.firstName)
-      setLastName(props.contactData.lastName)
-      setEmail(props.contactData.email)
-      setPhoneNo(props.contactData.phone)
-      setAddress(props.contactData.address)
-      setUserId(props.contactData.user.id)
+    if (props.contactData) {
+      setContactId(props.contactData.id);
+      setFirstName(props.contactData.firstName);
+      setLastName(props.contactData.lastName);
+      setEmail(props.contactData.email);
+      setPhoneNo(props.contactData.phone);
+      setAddress(props.contactData.address);
+      setUserId(props.contactData.user.id);
     }
-  }, [props.contactData])
+  }, [props.contactData]);
 
-  console.log(contactId)
-  console.log(userId)
+  // console.log(contactId);
+  // console.log(userId);
+
   return (
     <Dialog open={open} onClose={props.onClose} className="relative z-10">
       <DialogBackdrop
@@ -130,15 +145,15 @@ export default function EditModal(props) {
                           />
                         </div>
                         <div>
-                        <LabelWithInput
-                          htmlFor="address"
-                          labelName="Address"
-                          inputType="text"
-                          inputId="address"
-                          placeholder="Enter Your Address"
-                          value={address}
-                          onChange={handleAddressChange}
-                        />     
+                          <LabelWithInput
+                            htmlFor="address"
+                            labelName="Address"
+                            inputType="text"
+                            inputId="address"
+                            placeholder="Enter Your Address"
+                            value={address}
+                            onChange={handleAddressChange}
+                          />
                         </div>
                       </div>
                     </form>
@@ -150,7 +165,10 @@ export default function EditModal(props) {
             <div className="bg-gray-200 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
               <button
                 type="button"
-                onClick={props.onClose}
+                onClick={() => {
+                  props.onClose();
+                  updateCurrentContact();
+                }}
                 className="inline-flex w-full justify-center rounded-md bg-blue-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600 sm:ml-3 sm:w-auto"
               >
                 Update
