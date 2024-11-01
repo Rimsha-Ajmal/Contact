@@ -19,6 +19,11 @@ export const deleteContact = async (contactId) => {
   const { data } = await axios.delete(`http://localhost:8080/contact/${contactId}`);
 };
 
+export const getContactById = async(contactId) => {
+  const { data } = await axios.get(`http://localhost:8080/contact/${contactId}`);
+  return data;
+}
+
 export const updateContact = async (id, text, userId) => {
   const { data } = await axios.put(`http://localhost:8080/contact//${id}`, {
     title: text,

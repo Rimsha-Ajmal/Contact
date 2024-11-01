@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogBackdrop,
@@ -13,42 +13,49 @@ import LabelWithInput from "../label-and-inputs/LabelWithInput";
 export default function EditModal(props) {
   const [open, setOpen] = useState(true);
 
-  //   const [firstName, setFirstName] = useState("");
-  //   const [lastName, setLastName] = useState("");
-  //   const [email, setEmail] = useState("");
-  //   const [phoneNo, setPhoneNo] = useState("");
-  //   const [address, setAddress] = useState("");
-  //   const [password, setPassword] = useState("");
-  //   const [rePassword, setRePassword] = useState("");
+    const [contactId, setContactId] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phoneNo, setPhoneNo] = useState("");
+    const [address, setAddress] = useState("");
+    const [userId, setUserId] = useState("");
 
-  //   const handleFirstNameChange = (event) => {
-  //     setFirstName(event.target.value);
-  //   };
+    const handleFirstNameChange = (event) => {
+      setFirstName(event.target.value);
+    };
 
-  //   const handleLastNameChange = (event) => {
-  //     setLastName(event.target.value);
-  //   };
+    const handleLastNameChange = (event) => {
+      setLastName(event.target.value);
+    };
 
-  //   const handleEmailChange = (event) => {
-  //     setEmail(event.target.value);
-  //   };
+    const handleEmailChange = (event) => {
+      setEmail(event.target.value);
+    };
 
-  //   const handlePhoneNoChange = (event) => {
-  //     setPhoneNo(event.target.value);
-  //   };
+    const handlePhoneNoChange = (event) => {
+      setPhoneNo(event.target.value);
+    };
 
-  //   const handleAddressChange = (event) => {
-  //     setAddress(event.target.value);
-  //   };
+    const handleAddressChange = (event) => {
+      setAddress(event.target.value);
+    };
 
-  //   const handlePasswordChange = (event) => {
-  //     setPassword(event.target.value);
-  //   };
+  useEffect(()=>{
+    console.log(props.contactData);
+    if(props.contactData){
+      setContactId(props.contactData.id)
+      setFirstName(props.contactData.firstName)
+      setLastName(props.contactData.lastName)
+      setEmail(props.contactData.email)
+      setPhoneNo(props.contactData.phone)
+      setAddress(props.contactData.address)
+      setUserId(props.contactData.user.id)
+    }
+  }, [props.contactData])
 
-  //   const handleRePasswordChange = (event) => {
-  //     setRePassword(event.target.value);
-  //   };
-
+  console.log(contactId)
+  console.log(userId)
   return (
     <Dialog open={open} onClose={props.onClose} className="relative z-10">
       <DialogBackdrop
@@ -89,7 +96,8 @@ export default function EditModal(props) {
                             inputType="text"
                             inputId="firstname"
                             placeholder="Enter Your First Name"
-                            // onChange={handleFirstNameChange}
+                            value={firstName}
+                            onChange={handleFirstNameChange}
                           />
                           <LabelWithInput
                             htmlFor="lastname"
@@ -97,7 +105,8 @@ export default function EditModal(props) {
                             inputType="text"
                             inputId="lastname"
                             placeholder="Enter Your Last Name"
-                            // onChange={handleLastNameChange}
+                            value={lastName}
+                            onChange={handleLastNameChange}
                           />
                         </div>
                         <div className="flex gap-3">
@@ -107,7 +116,8 @@ export default function EditModal(props) {
                             inputType="text"
                             inputId="email"
                             placeholder="Enter Your Email"
-                            // onChange={handleEmailChange}
+                            value={email}
+                            onChange={handleEmailChange}
                           />
                           <LabelWithInput
                             htmlFor="phone"
@@ -115,7 +125,8 @@ export default function EditModal(props) {
                             inputType="text"
                             inputId="phone"
                             placeholder="Enter Your Phone No"
-                            // onChange={handlePhoneNoChange}
+                            value={phoneNo}
+                            onChange={handlePhoneNoChange}
                           />
                         </div>
                         <div>
@@ -125,7 +136,8 @@ export default function EditModal(props) {
                           inputType="text"
                           inputId="address"
                           placeholder="Enter Your Address"
-                          // onChange={handleAddressChange}
+                          value={address}
+                          onChange={handleAddressChange}
                         />     
                         </div>
                       </div>
