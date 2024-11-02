@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Button from "../button/Button";
 import { getContactsByUserId } from "../../service/ContactService";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Card from "../ContactCard/Card";
 import AddContactModal from "../modals/AddContactModal";
 
@@ -34,6 +34,9 @@ export default function Dashboard() {
 
   return (
     <div>
+      <nav>
+        <Link to="user-profile">Go to user profile</Link>
+      </nav>
       <div className="flex justify-end mr-6 mt-1">
         <Button
           name="Add Contact"
