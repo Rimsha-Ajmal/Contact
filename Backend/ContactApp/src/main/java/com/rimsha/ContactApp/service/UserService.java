@@ -1,5 +1,6 @@
 package com.rimsha.ContactApp.service;
 
+import com.rimsha.ContactApp.dto.ChangePasswordDto;
 import com.rimsha.ContactApp.dto.LoginDto;
 import com.rimsha.ContactApp.dto.SignUpDto;
 import com.rimsha.ContactApp.model.User;
@@ -22,16 +23,16 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
-    public List<User> getUsers(){
+    public List<User> getUsers() {
         return userRepo.findAll();
     }
 
-    public User createUser(User user){
+    public User createUser(User user) {
         userRepo.save(user);
         return user;
     }
 
-    public User updateUser(String id, User user){
+    public User updateUser(String id, User user) {
         User updatedUser = userRepo.findById(id).get();
         updatedUser.setFirstName(user.getFirstName());
         updatedUser.setLastName(user.getLastName());
@@ -49,13 +50,13 @@ public class UserService {
         System.out.println("Email provided: " + loginDto.getEmail());
         System.out.println("Password provided: " + loginDto.getPassword());
 
-        if(!existingUser.isPresent()){
+        if (!existingUser.isPresent()) {
             throw new Exception("User doesn't exist.");
         }
 
         User currentUser = existingUser.get();
 
-        if(!currentUser.getPassword().equals(loginDto.getPassword())){
+        if (!currentUser.getPassword().equals(loginDto.getPassword())) {
             throw new Exception("password is not correct");
         }
 
@@ -68,5 +69,15 @@ public class UserService {
         signUpDto.setAddress(currentUser.getAddress());
 
         return signUpDto;
+    }
+
+    public ChangePasswordDto changePassword(String id, ChangePasswordDto changePasswordDto) {
+        User user = userRepo.findById(id).get();
+
+        if (user.getPassword().equals(changePasswordDto.getCurrentPassword())) {
+            user.setPassword(changePasswordDto.getNewPassword());
+            return changePasswordDto;
+        }
+        return null;
     }
 }

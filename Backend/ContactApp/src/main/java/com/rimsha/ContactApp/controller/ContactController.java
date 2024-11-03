@@ -1,6 +1,7 @@
 package com.rimsha.ContactApp.controller;
 
 import com.rimsha.ContactApp.dto.ContactDto;
+import com.rimsha.ContactApp.dto.FilterContactDto;
 import com.rimsha.ContactApp.model.Contact;
 import com.rimsha.ContactApp.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,10 @@ public class ContactController {
     private ContactService contactService;
 
     @GetMapping("/user/{id}")
-    public List<Contact> getContactsByUserId(@PathVariable String id) {
-        return contactService.getContactsByUserId(id);
+    public List<Contact> getContactsByUserId(@PathVariable String id, @RequestParam(required = false) String sortBy) {
+        FilterContactDto filterContactDto = new FilterContactDto();
+        filterContactDto.setSortBy(sortBy);
+        return contactService.getContactsByUserId(id, filterContactDto);
     }
 
     @PostMapping

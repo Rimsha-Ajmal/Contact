@@ -1,5 +1,6 @@
 package com.rimsha.ContactApp.controller;
 
+import com.rimsha.ContactApp.dto.ChangePasswordDto;
 import com.rimsha.ContactApp.dto.LoginDto;
 import com.rimsha.ContactApp.dto.SignUpDto;
 import com.rimsha.ContactApp.model.User;
@@ -37,6 +38,11 @@ public class UserController {
     @PostMapping("/login")
     public SignUpDto checkEmailPassword(@RequestBody LoginDto loginDto) throws Exception {
         return userService.checkEmailPassword(loginDto);
+    }
+
+    @PutMapping("/changePassword/{id}")
+    public ChangePasswordDto changePassword(@PathVariable String id, @RequestBody ChangePasswordDto changePasswordDto) {
+        return userService.changePassword(id, changePasswordDto);
     }
 
 }

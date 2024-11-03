@@ -1,8 +1,18 @@
 import { PaperClipIcon } from "@heroicons/react/20/solid";
+import Button from "../button/Button";
+import { useState } from "react";
+import ChangePasswordModal from "../modals/ChangePasswordModal";
 
 export default function UserProfile() {
   const userDetails = localStorage.getItem("userData");
   const currentUser = JSON.parse(userDetails);
+
+  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
+
+  const openChangePasswordModal = () => setIsChangePasswordModalOpen(true);
+  const closeChangePasswordModal = () => setIsChangePasswordModalOpen(false);
+
+
   return (
     <div>
       <div className="px-4 sm:px-0">
@@ -50,11 +60,16 @@ export default function UserProfile() {
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm/6 font-medium text-gray-900"></dt>
             <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <button>Change Password</button>
+              <Button onClick={openChangePasswordModal} name="Change Password" className="bg-blue-600 ml-2 my-3 px-5 py-2 flex justify-center items-center transition duration-500 ease-in-out hover:bg-blue-500 rounded-2xl font-semibold text-sm"
+              />
             </dd>
           </div>
         </dl>
       </div>
+
+      {isChangePasswordModalOpen && (
+        <ChangePasswordModal onClose={closeChangePasswordModal}/>
+      )}
     </div>
   );
 }
