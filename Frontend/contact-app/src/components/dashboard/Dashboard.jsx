@@ -34,20 +34,18 @@ export default function Dashboard() {
 
   return (
     <div>
-      <nav>
-        <Link to="user-profile">Go to user profile</Link>
-      </nav>
       <div className="flex justify-end mr-6 mt-1">
         <Button
           name="Add Contact"
           className="bg-blue-600 ml-2 my-3 px-5 py-2 flex justify-center items-center transition duration-500 ease-in-out hover:bg-blue-500 rounded-2xl font-semibold text-sm"
           onClick={openAddContactModal}
         />
-        <Button
-          name="LOGOUT"
-          className="bg-red-600 ml-2 my-3 px-5 py-2 flex justify-center items-center transition duration-500 ease-in-out hover:bg-red-500 rounded-2xl font-semibold text-sm"
-          onClick={logout}
-        />
+        <select defaultValue="">
+          <option value="" disabled hidden>Filter</option>
+          <option value="">Name</option>
+          <option value="">Email</option>
+          <option value="">Phone no</option>
+        </select>
       </div>
 
       <div>
