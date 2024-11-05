@@ -1,9 +1,11 @@
 import axios from "axios";
 import { API_URL } from "./Constants";
 
-export const getContactsByUserId = async (userId) => {
+export const getContactsByUserId = async (userId, sortBy, search) => {
   const { data } = await axios.get(
-    `http://localhost:8080/contact/user/${userId}`
+    `http://localhost:8080/contact/user/${userId}`, {
+      params: { search, sortBy },
+    }
   );
   console.log("Data fetched successfully");
   return data;
@@ -56,15 +58,3 @@ export const updateContact = async (
   );
 };
 
-// export const markAsCompletedAndSortData = async (userId, completed, sortBy) => {
-//   const { data } = await axios.get(`${API_URL}/todo/user/${userId}`, {
-//     params: { completed, sortBy },
-//   });
-//   return data;
-// };
-
-// export const setTodoMarkAsCompleted = async (id, completed) => {
-//   const { data } = await axios.put(`${API_URL}/todo/${id}`, {
-//     completed,
-//   });
-// };
