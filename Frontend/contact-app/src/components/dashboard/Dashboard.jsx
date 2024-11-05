@@ -3,11 +3,14 @@ import Button from "../button/Button";
 import { getContactsByUserId } from "../../service/ContactService";
 import Card from "../ContactCard/Card";
 import AddContactModal from "../modals/AddContactModal";
+import { useSearchParams } from "react-router-dom";
 
 export default function Dashboard() {
   const [contact, setContact] = useState([]);
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
-  const [filter, setFilter] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const sortBy = searchParams.get("sortBy") || '';
+  const [filter, setFilter] = useState(sortBy);
 
   const openAddContactModal = () => setIsAddContactModalOpen(true);
   const closeAddContactModal = () => setIsAddContactModalOpen(false);
@@ -15,23 +18,26 @@ export default function Dashboard() {
   const handleFilterChange = async (event) => {
     const filterBy = event.target.value;
     setFilter(filterBy);
-    const data = await getContactsByUserId(currentUser.id, filterBy);
-    setContact(data);
+    setSearchParams({ sortBy: filterBy });
+    fetchContacts(filterBy)
+
+    // const data = await getContactsByUserId(currentUser.id, filterBy);
+    // setContact(data);
     console.log(filterBy);
   };
 
   const userDetails = localStorage.getItem("userData");
   const currentUser = JSON.parse(userDetails);
 
-  const fetchContacts = async () => {
-    const data = (await getContactsByUserId(currentUser.id)) || [];
+  const fetchContacts = async (sortBy) => {
+    const data = (await getContactsByUserId(currentUser.id, sortBy)) || [];
     setContact(data);
     console.log(data);
   };
 
   useEffect(() => {
-    fetchContacts();
-  }, []);
+    fetchContacts(sortBy);
+  }, [sortBy]);
 
   return (
     <div>
