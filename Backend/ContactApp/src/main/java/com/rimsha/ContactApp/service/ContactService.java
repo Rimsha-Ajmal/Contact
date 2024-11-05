@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ public class ContactService {
     @Autowired
     private UserRepo userRepo;
 
-    public List<Contact> getContactsByUserId(String id, FilterContactDto filterContactDto) {
+    public List<Contact> getContactsByUserId(String userId, String search, FilterContactDto filterContactDto) {
         Sort sort = Sort.unsorted();
         if (filterContactDto != null && filterContactDto.getSortBy() != null) {
             if (filterContactDto.getSortBy().equalsIgnoreCase("A-Z")) {
@@ -37,13 +38,47 @@ public class ContactService {
                 sort = Sort.by(Sort.Direction.DESC, "firstName");
             }
         }
-        return contactRepo.findAllByUser_Id(id, sort);
+
+        List<Contact> contacts = contactRepo.findAllByUser_Id(userId, sort);
+
+        if ((search != null && !search.isEmpty())) {
+            List<Contact> filteredContacts = new ArrayList<>();
+
+            for (int i = 0; i < contacts.size(); i++) {
+                Contact contact = contacts.get(i);
+
+                boolean matchesFirstName = contact.getFirstName() != null &&
+                        (contact.getFirstName().equalsIgnoreCase(search) ||
+                                contact.getFirstName().toLowerCase().contains(search.toLowerCase()));
+
+                boolean matchesLastName = contact.getLastName() != null &&
+                        (contact.getLastName().equalsIgnoreCase(search) ||
+                                contact.getLastName().toLowerCase().contains(search.toLowerCase()));
+
+                boolean matchesEmail = contact.getEmail() != null &&
+                        (contact.getEmail().equalsIgnoreCase(search) ||
+                                contact.getEmail().toLowerCase().contains(search.toLowerCase()));
+
+                boolean matchesAddress = contact.getEmail() != null &&
+                        (contact.getAddress().equalsIgnoreCase(search) ||
+                                contact.getAddress().toLowerCase().contains(search.toLowerCase()));
+
+                boolean matchesPhoneNo = contact.getEmail() != null &&
+                        (contact.getPhone().equalsIgnoreCase(search) ||
+                                contact.getPhone().toLowerCase().contains(search.toLowerCase()));
+
+                if (matchesFirstName || matchesLastName || matchesEmail || matchesAddress || matchesPhoneNo) {
+                    filteredContacts.add(contact);
+                }
+            }
+            return filteredContacts;
+        }
+        return contacts;
     }
 
     public Optional<Contact> getContactsByContactId(String id) {
         return contactRepo.findAllById(id);
     }
-
 
     public Contact createContact(ContactDto contactDto) {
         Contact contact = new Contact();
@@ -75,10 +110,10 @@ public class ContactService {
         return updateContact;
     }
 
-    public Contact deleteContact(String id){
+    public Contact deleteContact(String id) {
         Contact deleteContact = contactRepo.findById(id).orElse(null);
 
-        if(deleteContact != null) {
+        if (deleteContact != null) {
             Contact contact = deleteContact;
             contact.setUser(null);
             contactRepo.save(contact);
