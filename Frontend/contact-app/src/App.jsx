@@ -6,6 +6,7 @@ import PrivateRoutes from './routes/PrivateRoutes';
 import Dashboard from './components/dashboard/Dashboard';
 import UserProfile from './components/user-profile/UserProfile';
 import Header from './components/header/Header';
+import Pagination from './components/pagination/Pagination';
 
 function App() {
   return (
