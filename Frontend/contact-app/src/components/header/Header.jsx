@@ -9,12 +9,12 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Outlet, useLocation, useNavigate } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   MagnifyingGlassIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const navigation = [{ name: "Dashboard", href: "/", current: true }];
 
@@ -26,6 +26,19 @@ export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const inputRef = useRef();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleSearchInputChange = (event) => {
+    const search = event.target.value;
+    setSearchInput(search);
+
+    setSearchParams((prevParams) => {
+      const newParams = new URLSearchParams(prevParams);
+      newParams.set("search", search);
+      return newParams;
+    });
+  };
 
   const logout = () => {
     localStorage.removeItem("userData");
@@ -87,6 +100,8 @@ export default function Header() {
             <div class="flex justify-center items-center w-full">
               <div className="relative flex items-center">
                 <input
+                  value={searchInput}
+                  onChange={handleSearchInputChange}
                   ref={inputRef}
                   type="text"
                   placeholder="Search contacts"
