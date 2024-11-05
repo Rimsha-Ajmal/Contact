@@ -12,7 +12,6 @@ export default function UserProfile() {
   const openChangePasswordModal = () => setIsChangePasswordModalOpen(true);
   const closeChangePasswordModal = () => setIsChangePasswordModalOpen(false);
 
-
   return (
     <div>
       <div className="px-4 sm:px-0">
@@ -68,7 +67,7 @@ export default function UserProfile() {
       </div>
 
       {isChangePasswordModalOpen && (
-        <ChangePasswordModal onClose={closeChangePasswordModal}/>
+        <ChangePasswordModal onClose={closeChangePasswordModal} userId={currentUser.id}/>
       )}
     </div>
   );
