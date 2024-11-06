@@ -4,13 +4,16 @@ import { getContactsByUserId } from "../../service/ContactService";
 import Card from "../ContactCard/Card";
 import AddContactModal from "../modals/AddContactModal";
 import { useSearchParams } from "react-router-dom";
+import { useDebouncedValue } from "../../Hooks/useDebouncedSearch";
 
 export default function Dashboard() {
   const [contact, setContact] = useState([]);
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const sortBy = searchParams.get("sortBy") || '';
+  const searchBy = searchParams.get("search") || "";
   const [filter, setFilter] = useState(sortBy);
+  const debouncedSearchTerm = useDebouncedValue(searchParams, 2000);
 
   const openAddContactModal = () => setIsAddContactModalOpen(true);
   const closeAddContactModal = () => setIsAddContactModalOpen(false);
@@ -18,26 +21,27 @@ export default function Dashboard() {
   const handleFilterChange = async (event) => {
     const filterBy = event.target.value;
     setFilter(filterBy);
-    setSearchParams({ sortBy: filterBy });
-    fetchContacts(filterBy)
 
-    // const data = await getContactsByUserId(currentUser.id, filterBy);
-    // setContact(data);
-    console.log(filterBy);
+    setSearchParams((prevParams) => {
+      const newParams = new URLSearchParams(prevParams);
+      newParams.set("sortBy", filterBy);
+      return newParams;
+    });
+    fetchContacts(filterBy)
   };
 
   const userDetails = localStorage.getItem("userData");
   const currentUser = JSON.parse(userDetails);
 
-  const fetchContacts = async (sortBy) => {
-    const data = (await getContactsByUserId(currentUser.id, sortBy)) || [];
+  const fetchContacts = async (sortBy, searchBy) => {
+    const data = (await getContactsByUserId(currentUser.id, sortBy, searchBy)) || [];
     setContact(data);
     console.log(data);
   };
 
   useEffect(() => {
-    fetchContacts(sortBy);
-  }, [sortBy]);
+    fetchContacts(sortBy, searchBy);
+  }, [debouncedSearchTerm]);
 
   return (
     <div>
