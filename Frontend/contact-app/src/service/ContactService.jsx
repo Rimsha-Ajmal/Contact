@@ -11,6 +11,13 @@ export const getContactsByUserId = async (userId, sortBy, search) => {
   return data;
 };
 
+export const changePassword = async(userId, currentPassword, newPassword) => {
+  const {data} = await axios.put(`http://localhost:8080/user/changePassword/${userId}`, {
+    currentPassword,
+    newPassword
+  });
+}
+
 export const createContact = async (
   firstName,
   lastName,
