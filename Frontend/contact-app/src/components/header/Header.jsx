@@ -27,7 +27,8 @@ export default function Header() {
   const location = useLocation();
   const inputRef = useRef();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchInput, setSearchInput] = useState("");
+  const searchBy = searchParams.get("search") || "";
+  const [searchInput, setSearchInput] = useState(searchBy);
 
   const handleSearchInputChange = (event) => {
     const search = event.target.value;
