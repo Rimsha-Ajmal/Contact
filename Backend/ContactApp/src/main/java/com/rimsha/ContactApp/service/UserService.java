@@ -57,7 +57,7 @@ public class UserService {
         User currentUser = existingUser.get();
 
         if (!currentUser.getPassword().equals(loginDto.getPassword())) {
-            throw new Exception("password is not correct");
+            throw new Exception("Password is not correct");
         }
 
         SignUpDto signUpDto = new SignUpDto();
