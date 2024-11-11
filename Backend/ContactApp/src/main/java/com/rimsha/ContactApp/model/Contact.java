@@ -2,10 +2,7 @@ package com.rimsha.ContactApp.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -18,6 +15,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_DEFAULT;
 @NoArgsConstructor
 @JsonInclude(NON_DEFAULT)
 @Table(name = "contacts")
+@Builder
+
 public class Contact {
 
     @Id
