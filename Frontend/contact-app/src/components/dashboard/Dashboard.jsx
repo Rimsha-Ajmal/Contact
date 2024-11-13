@@ -36,7 +36,7 @@ export default function Dashboard() {
 
   const fetchContacts = async (sortBy, searchBy) => {
     const data = (await getContactsByUserId(currentUser.id, sortBy, searchBy)) || [];
-    setContact(data);
+    setContact(data.contact);
     console.log(data);
   };
 

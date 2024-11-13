@@ -21,4 +21,6 @@ public interface ContactRepo extends JpaRepository<Contact, String> {
 
     @Query("SELECT c FROM Contact c WHERE c.user.id = :userId AND " + "(LOWER(c.firstName) LIKE LOWER(CONCAT(:search, '%')) OR " + "LOWER(c.lastName) LIKE LOWER(CONCAT(:search, '%')) OR " + "LOWER(c.email) LIKE LOWER(CONCAT(:search, '%')) OR " + "LOWER(c.phone) LIKE LOWER(CONCAT(:search, '%')) OR " + "LOWER(c.address) LIKE LOWER(CONCAT(:search, '%')))")
     List<Contact> findAllByUserIdAndSearch(String userId, String search, Pageable pageable);
+
+    List<Contact> findContactsByUserId(String userId);
 }
