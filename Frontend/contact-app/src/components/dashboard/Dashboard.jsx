@@ -95,7 +95,7 @@ export default function Dashboard() {
                 email={value.email}
                 address={value.address}
                 contactId={value.id}
-                fetchContacts={() => fetchContacts()}
+                fetchContacts={() => fetchContacts(sortBy, searchBy, page, size)}
               />
             );
           })}
@@ -105,12 +105,15 @@ export default function Dashboard() {
       {isAddContactModalOpen && (
         <AddContactModal
           onClose={closeAddContactModal}
-          getContacts={fetchContacts}
+          getContacts={()=>fetchContacts(sortBy, searchBy, page, size)}
           userId={currentUser.id}
         />
       )}
 
-      <Pagination />
+      <Pagination
+        paginationObject={paginationData}
+        fetchContacts={fetchContacts}
+      />
     </div>
   );
 }
