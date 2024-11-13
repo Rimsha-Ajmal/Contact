@@ -2,6 +2,7 @@ package com.rimsha.ContactApp.controller;
 
 import com.rimsha.ContactApp.dto.ContactDto;
 import com.rimsha.ContactApp.dto.FilterContactDto;
+import com.rimsha.ContactApp.dto.PaginationDto;
 import com.rimsha.ContactApp.model.Contact;
 import com.rimsha.ContactApp.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,15 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/contact")
+@CrossOrigin(origins = "*")
+
 public class ContactController {
 
     @Autowired
     private ContactService contactService;
 
     @GetMapping("/user/{id}")
-    public List<Contact> getContactsByUserId(@PathVariable String id, @RequestParam(required = false) String search, @RequestParam(required = false) String sortBy, @RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "size", defaultValue = "3") int size) {
+    public PaginationDto getContactsByUserId(@PathVariable String id, @RequestParam(required = false) String search, @RequestParam(required = false) String sortBy, @RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "size", defaultValue = "5") int size) {
         FilterContactDto filterContactDto = new FilterContactDto();
         filterContactDto.setSortBy(sortBy);
         return contactService.getContactsByUserId(id, search, filterContactDto, page, size);
