@@ -10,9 +10,12 @@ import Pagination from "../pagination/Pagination";
 export default function Dashboard() {
   const [contact, setContact] = useState([]);
   const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
+  const [paginationData, setPaginationData] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
-  const sortBy = searchParams.get("sortBy") || '';
+  const sortBy = searchParams.get("sortBy") || "";
   const searchBy = searchParams.get("search") || "";
+  const page = searchParams.get("page") || "";
+  const size = searchParams.get("size") || "";
   const [filter, setFilter] = useState(sortBy);
   const debouncedSearchTerm = useDebouncedValue(searchBy, 2000);
 
@@ -26,7 +29,12 @@ export default function Dashboard() {
     setSearchParams((prevParams) => {
       const newParams = new URLSearchParams(prevParams);
       newParams.set("sortBy", filterBy);
-      fetchContacts(newParams.get("sortBy"),newParams.get("search"))
+      fetchContacts(
+        newParams.get("sortBy"),
+        newParams.get("search"),
+        newParams.get("page"),
+        newParams.get("size")
+      );
       return newParams;
     });
   };
@@ -34,14 +42,23 @@ export default function Dashboard() {
   const userDetails = localStorage.getItem("userData");
   const currentUser = JSON.parse(userDetails);
 
-  const fetchContacts = async (sortBy, searchBy) => {
-    const data = (await getContactsByUserId(currentUser.id, sortBy, searchBy)) || [];
+  const fetchContacts = async (sortBy, searchBy, page, size) => {
+    const data =
+      (await getContactsByUserId(
+        currentUser.id,
+        sortBy,
+        searchBy,
+        page,
+        size
+      )) || [];
     setContact(data.contact);
+    delete data.contact;
+    setPaginationData(data);
     console.log(data);
   };
 
   useEffect(() => {
-    fetchContacts(sortBy, searchBy);
+    fetchContacts(sortBy, searchBy, page, size);
   }, [debouncedSearchTerm]);
 
   return (
@@ -93,7 +110,7 @@ export default function Dashboard() {
         />
       )}
 
-      <Pagination/>
+      <Pagination />
     </div>
   );
 }
