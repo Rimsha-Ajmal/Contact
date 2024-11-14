@@ -27,6 +27,10 @@ public class UserService {
         return userRepo.findAll();
     }
 
+    public Optional<User> getCurrentUser(String id){
+        return userRepo.findById(id);
+    }
+
     public User createUser(User user) {
         userRepo.save(user);
         return user;
