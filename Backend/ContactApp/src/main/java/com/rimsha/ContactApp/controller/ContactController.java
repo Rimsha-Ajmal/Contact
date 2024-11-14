@@ -41,7 +41,7 @@ public class ContactController {
 
     @PostMapping
     public Contact createContact(@RequestBody ContactDto contactDto) {
-        if (contactDto == null || contactDto.getFirstName() == null || contactDto.getLastName() == null || contactDto.getEmail() == null || contactDto.getPhone() == null || contactDto.getAddress() == null) {
+        if (contactDto == null || contactDto.getFirstName() == null || contactDto.getLastName() == null || contactDto.getEmail() == null || contactDto.getPhone() == null || contactDto.getAddress() == null || contactDto.getUser_id() == null) {
             throw new ResourceNotFoundException("Contact creation failed. Ensure none of the field is empty.");
         }
         else if (contactDto.getFirstName().isEmpty() || contactDto.getLastName().isEmpty() || contactDto.getEmail().isEmpty() || contactDto.getPhone().isEmpty() || contactDto.getAddress().isEmpty() || contactDto.getUser_id().isEmpty()) {
@@ -55,8 +55,11 @@ public class ContactController {
         if (!contactService.getContactsByContactId(id).isPresent()) {
             throw new ResourceNotFoundException("Contact with ID: " + id + " not found. Update operation failed.");
         }
-        else if (contactDto.getFirstName().isEmpty() || contactDto.getLastName().isEmpty() || contactDto.getEmail().isEmpty() || contactDto.getPhone().isEmpty() || contactDto.getAddress().isEmpty() || contactDto.getUser_id().isEmpty()) {
+        if (contactDto == null || contactDto.getFirstName() == null || contactDto.getLastName() == null || contactDto.getEmail() == null || contactDto.getPhone() == null || contactDto.getAddress() == null || contactDto.getUser_id() == null) {
             throw new ResourceNotFoundException("Contact creation failed. Ensure none of the field is empty.");
+        }
+        else if (contactDto.getFirstName().isEmpty() || contactDto.getLastName().isEmpty() || contactDto.getEmail().isEmpty() || contactDto.getPhone().isEmpty() || contactDto.getAddress().isEmpty() || contactDto.getUser_id().isEmpty()) {
+            throw new ResourceNotFoundException("Contact updation failed. Ensure none of the field is empty.");
         }
 
         return contactService.updateContact(contactDto, id);
